@@ -9,15 +9,9 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 
-const devicesData = [
-    { "id": 1, "type": "GPS" },
-    { "id": 2, "type": "GPS" },
-    { "id": 3, "type": "PRESSURE" },
-    { "id": 4, "type": "TEMP" },
-    { "id": 8, "type": "TEMP" },
-    { "id": 9, "type": "TEMP" },
-    { "id": 10, "type": "LED" }
-];
+import DeviceProfile from './deviceProfile';
+
+
 
 const styles = theme => ({
     root: {
@@ -40,7 +34,7 @@ class devices extends Component {
     }
     componentDidMount() {
         let self = this;
-        fetch('/devices')
+        fetch('http://10.151.129.35:8080/device/')
             .then(res => res.json())
             .then(devices => self.setState({ devices: devices }));
     }
@@ -54,7 +48,7 @@ class devices extends Component {
                 <div>
                     <Container className={classes.cardGrid} maxWidth="md">
                         <Grid style={{ marginTop: 'auto', marginBottom: 'auto' }} container spacing={4}>
-                            {devicesData.map(device => (
+                            {this.state.devices.map(device => (
                                 <Grid item key={device} xs={12} sm={6} md={4}>
                                     <Card className={classes.card}>
                                         <CardMedia
@@ -64,10 +58,14 @@ class devices extends Component {
                                         />
                                         <CardContent className={classes.cardContent}>
                                             <Typography align='center' gutterBottom variant="h5" component="h2">
+                                                {device.id}
+                                            </Typography>
+                                            <Typography align='center' gutterBottom variant="h5" component="h2">
                                                 {device.type}
                                             </Typography>
                                         </CardContent>
                                         <CardActions>
+                                            <DeviceProfile />
                                             <Button size="small" style={{ marginLeft: 'auto', marginRight: 'auto' }} color="primary">
                                                 View
                                             </Button>
