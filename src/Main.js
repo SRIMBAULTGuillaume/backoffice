@@ -3,7 +3,6 @@ import { Switch, Route } from 'react-router-dom';
 import Devices from './components/devices';
 import Login from './components/login';
 
-
 const Main = () => (
     <main>
         <Switch>

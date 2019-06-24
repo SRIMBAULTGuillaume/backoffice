@@ -1,26 +1,22 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 
 const devicesData = [
-    {
-        id: '1', actual_temperature: '23', given_time_temperature_last_2_hours: '37', average_last_month_temperature: '34'
-    },
-    {
-        id: '2', actual_temperature: '28', given_time_temperature_last_2_hours: '35', average_last_month_temperature: '39'
-    },
-    {
-        id: '3', actual_temperature: '23', given_time_temperature_last_2_hours: '33', average_last_month_temperature: '31'
-    },
-    {
-        id: '4', actual_temperature: '33', given_time_temperature_last_2_hours: '47', average_last_month_temperature: '30.5'
-    }
+    { "id": 1, "type": "GPS" },
+    { "id": 2, "type": "GPS" },
+    { "id": 3, "type": "PRESSURE" },
+    { "id": 4, "type": "TEMP" },
+    { "id": 8, "type": "TEMP" },
+    { "id": 9, "type": "TEMP" },
+    { "id": 10, "type": "LED" }
 ];
 
 const styles = theme => ({
@@ -54,43 +50,35 @@ class devices extends Component {
     render() {
         const { classes } = this.props;
         return (
-            <div>
-                <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    color="primary"
-                    href="/login"
-                >
-                    Log out
-                </Button>
-                <Paper className={classes.root}>
-                    <Table className={classes.table}>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align='center'>device id</TableCell>
-                                <TableCell align="center">device actual temperature</TableCell>
-                                <TableCell align="center">device last 2 hours temperature</TableCell>
-                                <TableCell align="center">device last month avg temperature</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
+            <React.Fragment>
+                <div>
+                    <Container className={classes.cardGrid} maxWidth="md">
+                        <Grid style={{ marginTop: 'auto', marginBottom: 'auto' }} container spacing={4}>
                             {devicesData.map(device => (
-                                <TableRow key={device.id}>
-                                    <TableCell align='center' component="th" scope="row">
-                                        {device.id}
-                                    </TableCell>
-                                    <TableCell align='center' component="th" scope="row">
-                                        {device.actual_temperature}°
-                                    </TableCell>
-                                    <TableCell align='center'>{device.given_time_temperature_last_2_hours}°</TableCell>
-                                    <TableCell align='center'>{device.average_last_month_temperature}°</TableCell>
-                                </TableRow>
+                                <Grid item key={device} xs={12} sm={6} md={4}>
+                                    <Card className={classes.card}>
+                                        <CardMedia
+                                            className={classes.cardMedia}
+                                            image="https://source.unsplash.com/random"
+                                            title="Image title"
+                                        />
+                                        <CardContent className={classes.cardContent}>
+                                            <Typography align='center' gutterBottom variant="h5" component="h2">
+                                                {device.type}
+                                            </Typography>
+                                        </CardContent>
+                                        <CardActions>
+                                            <Button size="small" style={{ marginLeft: 'auto', marginRight: 'auto' }} color="primary">
+                                                View
+                                            </Button>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
                             ))}
-                        </TableBody>
-                    </Table>
-                </Paper>
-            </div>
+                        </Grid>
+                    </Container>
+                </div>
+            </React.Fragment>
         );
     }
 }
