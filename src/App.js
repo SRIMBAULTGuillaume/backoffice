@@ -36,7 +36,7 @@ function App() {
         <Header />
         <Route
           exact
-          path="/login"
+          path="/"
           component={Login}
         />
         <Route
@@ -50,7 +50,6 @@ function App() {
           path="/device/:deviceId" component={DeviceProfile}
           fallbackUrl="/devices"
         />
-
         {/* <Footer  /> */}
       </div>
     </Router>

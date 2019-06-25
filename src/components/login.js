@@ -11,6 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import atlantisLogo from '../images/algeco_logo.jpg';
+const axios = require('axios')
 
 
 const styles = theme => ({
@@ -46,19 +47,47 @@ class login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: '',
+            username: 'admin',
+            password: 'admin'
         }
+        this.Login = this.Login.bind(this);
     }
 
     componentDidMount() {
-        let self = this;
-        fetch('/login')
-            .then();
     }
+
+
+    Login() {
+        let currentComponent = this;
+        const params = {
+            'username': this.state.username,
+            'password': this.state.password,
+        };
+        axios.post('http://10.151.129.35:8080/user/login', params, {
+            headers: {
+                'content-type': 'application/json',
+            },
+        })
+            .then(function (response) {
+                currentComponent.setState((state, props) => {
+                    return ({
+                        dota: response.data,
+                    });
+                })
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+
+
+
 
     render() {
         const { classes } = this.props;
+        console.log(this.state.username);
+        console.log(this.state.password);
         return (
             <Grid container component="main" className={classes.root}>
                 <CssBaseline />
@@ -99,15 +128,17 @@ class login extends Component {
                                 label="Remember me"
                             />
                             <Button
-                                type="submit"
+                                // type="submit"
                                 fullWidth
                                 variant="contained"
                                 color="primary"
-                                href="/devices"
+                                // href="/devices"
                                 className={classes.submit}
+                                onClick={this.Login}
                             >
                                 Log in
                             </Button>
+
                         </form>
                     </div>
                 </Grid>

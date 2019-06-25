@@ -26,7 +26,7 @@ export default class header extends Component {
                             type="submit"
                             variant="contained"
                             color="primary"
-                            href="/login"
+                            href="/"
                         >
                             Log out
                     </Button>
