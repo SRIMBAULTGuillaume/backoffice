@@ -38,23 +38,27 @@ class devices extends Component {
         fetch('http://10.151.129.35:8080/device/')
             .then(res => res.json())
             .then(devices => self.setState({ devices: devices }))
-        fetch('http://10.151.129.35:8080/device/' + parseInt(this.props.deviceId, 10 + ''))
-            .then(res => res.json())
-            .then(devicesData => self.setState({ devicesData: devicesData }))
     }
+
     logChange(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
 
     onClick(e) {
-        this.setState({ deviceId: e.target.id })
-    }
+        let self = this;
+        self.setState({
+            deviceId: e.target.id
+        }, () => {
+            fetch('http://10.151.129.35:8080/device/' + this.state.deviceId + '')
+                .then(res => res.json())
+                .then(devicesData => self.setState({ devicesData: devicesData }))
+        })
+    };
+
 
     render() {
         const { classes } = this.props;
-        console.log(this.state.deviceId);
-        console.log(this.state.devices);
-        console.log(this.state.devicesId);
+        console.log(this.state.devicesData)
         return (
             <React.Fragment>
                 <div>
@@ -64,15 +68,16 @@ class devices extends Component {
                                 <Grid item xs={12} sm={6} md={4}>
                                     <Card className={classes.card}>
                                         <CardContent className={classes.cardContent}>
-                                            <Typography key={device.id} id={device.id} onClick={this.onClick} align='center' gutterBottom variant="h5" component="h2">
+                                            <Button><Typography key={device.id} id={device.id} onClick={this.onClick} align='center' gutterBottom variant="h5" component="h2">
                                                 {device.id}
                                             </Typography>
+                                            </Button>
                                             <Typography align='center' gutterBottom variant="h5" component="h2">
                                                 {device.type}
                                             </Typography>
                                         </CardContent>
                                         <CardActions>
-                                            <DeviceProfile deviceId={this.state.deviceId} devicesData={this.state.devicesData} />
+                                            {/* <DeviceProfile deviceId={this.state.deviceId} devicesData={this.state.devicesData} /> */}
                                         </CardActions>
                                     </Card>
                                 </Grid>
