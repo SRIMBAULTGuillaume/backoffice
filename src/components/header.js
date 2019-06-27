@@ -26,6 +26,7 @@ export default class header extends Component {
                         >
                             Atlantis Project
                         </Typography>
+                       
                         <MenuSimple />
                         <Button
                             style={{ marginLeft: 'auto' }}

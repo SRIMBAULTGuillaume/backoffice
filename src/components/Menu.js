@@ -2,9 +2,23 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import { makeStyles } from '@material-ui/core/styles';
+import IconButton from '@material-ui/core/IconButton';
+import { Link } from 'react-router-dom'
+
+const useStyles = makeStyles(theme => ({
+    fab: {
+      margin: theme.spacing(1),
+    },
+  }));
+
 
 export default function MenuSimple() {
     const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const classes = useStyles();
 
     function handleClick(event) {
         setAnchorEl(event.currentTarget);
@@ -16,9 +30,11 @@ export default function MenuSimple() {
 
     return (
         <div>
-            <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-                Menu
-            </Button>
+            {/* <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}> */}
+            <IconButton color="inherit" onClick={handleClick} className={classes.button} aria-label="Delete">
+        <AddIcon />
+            </IconButton>
+            {/* </Button> */}
             <Menu
                 id="simple-menu"
                 anchorEl={anchorEl}
@@ -26,9 +42,9 @@ export default function MenuSimple() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>Devices</MenuItem>
-                <MenuItem onClick={handleClose}>Users</MenuItem>
-                <MenuItem onClick={handleClose}>Link device to user</MenuItem>
+               <Link style={{ textDecoration: 'none', color: 'black' }} to="/devices"> <MenuItem onClick={handleClose}>Devices</MenuItem></Link>
+               <Link style={{ textDecoration: 'none', color: 'black' }} to="/users">  <MenuItem onClick={handleClose}>Users</MenuItem></Link>
+               <Link style={{ textDecoration: 'none', color: 'black' }} to="/linkToDevice"> <MenuItem onClick={handleClose}>Link device to user</MenuItem></Link>
             </Menu>
         </div>
     );

@@ -16,6 +16,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
+import Box from '@material-ui/core/Box';
 
 
 const styles = theme => ({
@@ -125,7 +126,11 @@ class devices extends Component {
                                     </Grid>
                                 ))} */}
                                 <div className={classes.list}>
-                                    <Paper> Devices :
+                                    <Typography component="div">
+      <Box fontWeight="fontWeightMedium" m={1}>
+      Devices :
+      </Box>
+    </Typography> 
                                     {this.state.devices.map(device => (
                                             <List component="nav" aria-label="Main mailbox folders">
                                                 <ListItem button>
@@ -134,9 +139,9 @@ class devices extends Component {
                                                 </ListItem>
                                             </List>
                                         ))}
-                                    </Paper>
+                                   
                                 </div>
-                                <Divider style={{ margin: '20px' }} />
+                                {/* <Divider style={{ margin: '20px' }} />
                                 <div className={classes.list}>
                                     <Paper> Users :
                                     {this.state.users.map(user => (
@@ -148,7 +153,7 @@ class devices extends Component {
                                             </List>
                                         ))}
                                     </Paper>
-                                </div>
+                                </div> */}
                             </Grid>
                             {/* <Select
                                 value={this.state.user}
@@ -164,7 +169,7 @@ class devices extends Component {
                             </Select> */}
                             {/* <Button onClick={this.AddNewOwner.bind(this)}>Link the device selected to this user</Button> */}
                         </Container>
-                        <div style={{ marginTop: 'auto', marginBottom: 'auto' }} >
+                        {/* <div style={{ marginTop: 'auto', marginBottom: 'auto' }} >
                             <Paper style={{ textAlign: 'center' }}>
                                 Link device to user
                             <Grid container spacing={3}>
@@ -200,7 +205,7 @@ class devices extends Component {
                                     </Grid>
                                 </Grid>
                             </Paper>
-                        </div>
+                        </div> */}
                     </div>
                 </React.Fragment>
             )

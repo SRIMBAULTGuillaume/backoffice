@@ -9,6 +9,8 @@ import devices from './components/devices';
 import Header from './components/header';
 import Footer from './components/footer';
 import DeviceProfile from './components/deviceProfile';
+import users from './components/users';
+import LinkDeviceToUser from './components/LinkDeviceToUser';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -47,8 +49,20 @@ function App() {
         />
         <Route
           exact
+          path="/users"
+          component={users}
+          fallbackUrl="/devices"
+        />
+        <Route
+          exact
           path="/device/:deviceId" component={DeviceProfile}
           fallbackUrl="/devices"
+        />
+        <Route
+          exact
+          path="/linkToDevice"
+          component={LinkDeviceToUser}
+          fallbackUrl="/"
         />
         {/* <Footer  /> */}
       </div>
