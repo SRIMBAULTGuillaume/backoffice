@@ -64,7 +64,7 @@ class login extends Component {
     }
 
 
-    Login(e) {
+    Login() {
         let currentComponent = this;
         const params = {
             'username': this.state.username,
@@ -72,7 +72,7 @@ class login extends Component {
         };
         axios.post('http://10.151.129.35:8080/user/login', params, {
             headers: {
-                'content-type': 'application/json',
+                'Content-Type': 'application/json',
             },
         })
             .then(function (response) {
@@ -126,10 +126,6 @@ class login extends Component {
                                 id="password"
                                 autoComplete="current-password"
                                 onChange={this.handleChange.bind(this)}
-                            />
-                            <FormControlLabel
-                                control={<Checkbox value="remember" color="primary" />}
-                                label="Remember me"
                             />
                             <Button
                                 type="submit"
