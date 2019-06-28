@@ -28,7 +28,7 @@ const styles = theme => ({
 });
 
 class users extends Component {
-    constructor(props){
+    constructor(props) {
         super(props)
         this.state = {
             users: [],
@@ -44,29 +44,30 @@ class users extends Component {
 
     render() {
         const { classes } = this.props;
-        return(
+        return (
             <React.Fragment>
-                 <div className={classes.list}>
-                 <Typography component="div">
-      <Box fontWeight="fontWeightMedium" m={1}>
-      Users :
-      </Box>
-    </Typography>  
-                                    {this.state.users.map(user => (
-                                            <List component="nav" aria-label="Main mailbox folders">
-                                                <ListItem button>
-                                                    <ListItemText primary={user.email$javaServer} />
-                                                    <Divider />
-                                                </ListItem>
-                                            </List>
-                                        ))}
-                                    
-                                </div>
+                <Container className={classes.cardGrid} maxWidth="md">
+                    <Grid style={{ marginTop: 'auto', marginBottom: 'auto' }} container spacing={4}>
+                        <div className={classes.list}>
+                            <Typography component="div">
+                                <Box fontWeight="fontWeightMedium" m={1}>
+                                    Users :
+                                </Box>
+                            </Typography>
+                            {this.state.users.map(user => (
+                                <List component="nav" aria-label="Main mailbox folders">
+                                    <ListItem button>
+                                        <ListItemText primary={user.email$javaServer} />
+                                        <Divider />
+                                    </ListItem>
+                                </List>
+                            ))}
+                        </div>
+                    </Grid>
+                </Container>
             </React.Fragment>
-
         )
-
     }
 }
 
-export default withStyles (styles)(users);
+export default withStyles(styles)(users);

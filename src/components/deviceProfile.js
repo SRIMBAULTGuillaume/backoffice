@@ -21,35 +21,52 @@ class deviceProfile extends Component {
         this.state = {
             open: false,
             deviceId: this.props.deviceId,
-            devicesData: [],
         }
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.fetchDataFromDevice = this.fetchDataFromDevice.bind(this);
     }
 
-    handleChangePage = (event, page) => {
-        this.setState({ page });
-        console.log('page number:')
-        console.log(this.state.page)
-    };
+    componentDidMount() {
+        this.fetchDataFromDevice();
+    }
+
+
+
+    fetchDataFromDevice() {
+        fetch('http://10.151.129.35:8080/device/' + this.props.deviceId + '', {
+            headers: new Headers({
+                'Authorization': localStorage.getItem('token')
+            })
+        })
+            .then(res => res.json())
+            .then(devicesData => this.setState({ devicesData: devicesData }))
+    }
 
     handleOpen() {
-        // fetch('http://10.151.129.35:8080/device/' + parseInt(this.props.deviceId, 10) + '')
-        //     .then(res => res.json())
-        //     .then(devicesData => this.setState({ devicesData: devicesData }))
         this.setState({ open: true });
     }
 
     handleClose() {
-        this.setState({ open: false, deviceId: ''})
+        this.setState({ open: false })
     }
 
     render() {
+        console.log(this.props.devicesData);
         const { classes } = this.props;
-        console.log(this.state.devicesData);
         return (
             <div>
-                <Button  onClick={this.handleOpen} style={{ marginLeft: 'auto', marginRight: 'auto' }} >View</Button>
+                {/* <Button
+                    onClick={this.handleOpen}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                // key={this}
+                // id={device.id}
+                >
+                    Stats
+                </Button> */}
+                <Button onClick={this.handleOpen} style={{ marginLeft: 'auto', marginRight: 'auto' }} >Stats</Button>
                 <Modal
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
@@ -57,20 +74,24 @@ class deviceProfile extends Component {
                     onClose={this.handleClose}
                 >
                     <div className={classes.paper}>
-                        <Typography variant="h6" id="modal-title">
+                        <Typography align='center' gutterBottom variant="h5" component="h2">
                             device Id :{this.props.deviceId}
                         </Typography>
-                        <Typography variant="h6" id="modal-title">
-                            date  :{this.props.devicesData.date}
-                        </Typography>
-                        <Typography variant="h6" id="modal-title">
-                            value :{this.props.devicesData.value}
-                        </Typography>
-                        <Typography variant="h6" id="modal-title">
-                            value six hours :{this.props.devicesData.valueSixHours}
-                        </Typography>
+                        {Object.keys(this.props.devicesData).map((key) => (
+                            <React.Fragment>
+                                <Typography align='center' gutterBottom variant="h5" component="h2" key={key}>
+                                    {key} : {this.props.devicesData[key]}
+                                </Typography>
+                            </React.Fragment>
+                        ))}
+                        <div>
+                            <Typography align='center' gutterBottom variant="h5" component="h2">
+                                {/* device type : {device.type} */}
+                            </Typography>
+                        </div>
                         <Button onClick={this.handleClose}>back</Button>
                     </div>
+
                 </Modal>
             </div >
         )

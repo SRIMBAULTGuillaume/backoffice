@@ -17,6 +17,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
+import Modal from '@material-ui/core/Modal';
+import LinearProgress from '@material-ui/core/LinearProgress';
 
 
 const styles = theme => ({
@@ -47,10 +49,20 @@ class devices extends Component {
             deviceId: '',
             users: [],
             user: '',
+            open: false,
+            isLoaded: false,
         }
         this.logChange = this.logChange.bind(this);
         this.onClick = this.onClick.bind(this);
     }
+
+
+    handleDeviceIdClick(e) {
+        this.setState({
+            deviceId: e.target.id
+        })
+    }
+
 
     componentDidMount() {
         let self = this;
@@ -60,10 +72,8 @@ class devices extends Component {
             })
         })
             .then(res => res.json())
-            .then(devices => self.setState({ devices: devices }))
-        fetch('http://10.151.129.35:8080/user/')
-            .then(res => res.json())
-            .then(users => self.setState({ users: users }))
+            .then(devices => self.setState({ devices: devices, isLoaded: true }))
+
     }
 
     logChange(e) {
@@ -73,7 +83,8 @@ class devices extends Component {
     onClick(e) {
         let self = this;
         self.setState({
-            deviceId: e.target.id
+            deviceId: e.currentTarget.id,
+            open: true
         }, () => {
             fetch('http://10.151.129.35:8080/device/' + this.state.deviceId + '', {
                 headers: new Headers({
@@ -85,61 +96,104 @@ class devices extends Component {
         })
     };
 
-    AddNewOwner() {
-        let self = this;
-        fetch('http://10.151.129.35:8080/device/' + this.state.user + '/' + this.state.deviceId + '', {
-            method: 'put',
-            headers: new Headers({
-                'Authorization': localStorage.getItem('token')
-            })
-        })
+    // AddNewOwner() {
+    //     let self = this;
+    //     fetch('http://10.151.129.35:8080/device/' + this.state.user + '/' + this.state.deviceId + '', {
+    //         method: 'put',
+    //         headers: new Headers({
+    //             'Authorization': localStorage.getItem('token')
+    //         })
+    //     })
+    // }
+
+    handleOpen() {
+        // fetch('http://10.151.129.35:8080/device/' + parseInt(this.props.deviceId, 10) + '')
+        //     .then(res => res.json())
+        //     .then(devicesData => this.setState({ devicesData: devicesData }))
+
     }
+
+    handleClose() {
+        this.setState({ open: false, deviceId: '' })
+    }
+
 
     render() {
         const { classes } = this.props;
-        console.log(this.state.user);
-        console.log(this.state.deviceId);
         if (!localStorage.getItem('token')) {
             return <React.Fragment><h1>Bad login</h1> <Button href="/login">Back to login</Button></React.Fragment>
+        } else if (!this.state.isLoaded) {
+            return <LinearProgress
+            />
         } else {
             return (
                 <React.Fragment>
                     <div>
                         <Container className={classes.cardGrid} maxWidth="md">
                             <Grid style={{ marginTop: 'auto', marginBottom: 'auto' }} container spacing={4}>
-                                {/* {this.state.devices.map(device => (
-                                    <Grid item xs={12} sm={6} md={4}>
-                                        <Card className={classes.card}>
-                                            <CardContent className={classes.cardContent}>
-                                                <Button><Typography key={device.id} id={device.id} onClick={this.onClick} align='center' gutterBottom variant="h5" component="h2">
-                                                    {device.id}
-                                                </Typography>
-                                                </Button>
-                                                <Typography align='center' gutterBottom variant="h5" component="h2">
-                                                    {device.type}
-                                                </Typography>
-                                            </CardContent>
-                                            <CardActions>
-                                                <DeviceProfile deviceId={this.state.deviceId} devicesData={this.state.devicesData} />
-                                            </CardActions>
-                                        </Card>
-                                    </Grid>
-                                ))} */}
                                 <div className={classes.list}>
                                     <Typography component="div">
-      <Box fontWeight="fontWeightMedium" m={1}>
-      Devices :
-      </Box>
-    </Typography> 
+                                        <Box fontWeight="fontWeightMedium" m={1}>
+                                            Devices :
+                                        </Box>
+                                    </Typography>
                                     {this.state.devices.map(device => (
-                                            <List component="nav" aria-label="Main mailbox folders">
-                                                <ListItem button>
-                                                    <ListItemText primary={device.type} /> <ListItemText primary={device.macAddress} />
-                                                    <Divider />
-                                                </ListItem>
-                                            </List>
-                                        ))}
-                                   
+                                        <List component="nav" aria-label="Main mailbox folders">
+                                            <ListItem button>
+                                                <ListItemText key={device.id} id={device.id} onClick={this.onClick} primary={device.id} /> <ListItemText primary={device.type} /> <ListItemText primary={device.macAddress} />
+                                                {/* <Button
+                                                    key={device.id} id={device.id} onClick={this.onClick}
+                                                    // href={'/device/' + this.state.deviceId}
+                                                    variant="contained"
+                                                    color="primary"
+                                                >
+                                                    Device Stat
+                                                </Button> */}
+                                                <DeviceProfile deviceId={this.state.deviceId} devicesData={this.state.devicesData} />
+                                                {/* <Modal
+                                                    aria-labelledby="simple-modal-title"
+                                                    aria-describedby="simple-modal-description"
+                                                    open={this.state.open}
+                                                    onClose={this.handleClose}
+                                                >
+                                                    <div className={classes.paper}>
+                                                        <Typography variant="h6" id="modal-title">
+                                                            device Id :{this.state.deviceId}
+                                                        </Typography>
+                                                        <Typography variant="h6" id="modal-title">
+                                                            date  :{this.props.devicesData.date}
+                                                        </Typography>
+                                                        <Typography variant="h6" id="modal-title">
+                                                            value :{this.props.devicesData.value}
+                                                        </Typography>
+                                                        <Typography variant="h6" id="modal-title">
+                                                            value six hours :{this.props.devicesData.valueSixHours}
+                                                        </Typography>
+                                                        <Button onClick={this.handleClose}>back</Button>
+                                                    </div>
+                                                </Modal> */}
+                                            </ListItem>
+                                            <Divider />
+                                        </List>
+                                    ))}
+                                    {/* {this.state.devices.map(device => (
+                                        <Grid item xs={12} sm={6} md={4}>
+                                            <Card className={classes.card}>
+                                                <CardContent className={classes.cardContent}>
+                                                    <Button><Typography key={device.id} id={device.id} onClick={this.onClick} align='center' gutterBottom variant="h5" component="h2">
+                                                        {device.id}
+                                                    </Typography>
+                                                    </Button>
+                                                    <Typography align='center' gutterBottom variant="h5" component="h2">
+                                                        {device.type}
+                                                    </Typography>
+                                                </CardContent>
+                                                <CardActions>
+                                                    <DeviceProfile deviceId={this.state.deviceId} devicesData={this.state.devicesData} />
+                                                </CardActions>
+                                            </Card>
+                                        </Grid>
+                                    ))} */}
                                 </div>
                                 {/* <Divider style={{ margin: '20px' }} />
                                 <div className={classes.list}>

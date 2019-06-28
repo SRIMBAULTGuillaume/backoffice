@@ -11,6 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import atlantisLogo from '../images/algeco_logo.jpg';
+
 const axios = require('axios')
 
 
@@ -57,10 +58,25 @@ class login extends Component {
     componentDidMount() {
     }
 
-    handleChange(e) {
-        let change = {}
-        change[e.target.name] = e.target.value
-        this.setState(change);
+    // handleChange(e) {
+    //     let change = {}
+    //     change[e.target.name] = e.target.value
+    //     this.setState(change);
+    // }
+
+
+    handleChangeUsername(e) {
+        e.preventDefault();
+        this.setState({
+            username: e.target.value
+        })
+    }
+
+    handleChangePassword(e) {
+        e.preventDefault();
+        this.setState({
+            password: e.target.value
+        })
     }
 
 
@@ -90,6 +106,8 @@ class login extends Component {
 
     render() {
         const { classes } = this.props;
+        console.log(this.state.username);
+        console.log(this.state.password);
         return (
             <Grid container component="main" className={classes.root}>
                 <CssBaseline />
@@ -109,11 +127,12 @@ class login extends Component {
                                 required
                                 fullWidth
                                 id="username"
+                                value={this.state.username}
                                 label="Email Address"
                                 name="username"
                                 autoComplete="username"
                                 autoFocus
-                                onChange={this.handleChange.bind(this)}
+                                onChange={this.handleChangeUsername.bind(this)}
                             />
                             <TextField
                                 variant="outlined"
@@ -121,11 +140,12 @@ class login extends Component {
                                 required
                                 fullWidth
                                 name="password"
+                                value={this.state.password}
                                 label="Password"
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
-                                onChange={this.handleChange.bind(this)}
+                                onChange={this.handleChangePassword.bind(this)}
                             />
                             <Button
                                 type="submit"
