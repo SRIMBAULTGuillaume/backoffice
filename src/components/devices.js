@@ -48,12 +48,12 @@ class devices extends Component {
             user: '',
             open: false,
             isLoaded: false,
+            error:false
         }
         this.logChange = this.logChange.bind(this);
         this.onClick = this.onClick.bind(this);
         this.OnSignOut = this.OnSignOut.bind(this);
     }
-
 
     handleDeviceIdClick(e) {
         this.setState({
@@ -100,8 +100,6 @@ class devices extends Component {
         })
     };
 
-
-
     handleOpen() {
         // fetch('http://10.151.129.35:8080/device/' + parseInt(this.props.deviceId, 10) + '')
         //     .then(res => res.json())
@@ -112,16 +110,32 @@ class devices extends Component {
         this.setState({ open: false, deviceId: '' })
     }
 
-
-    render() {
-
-        
+    render() {       
         const { classes } = this.props;
         if (!localStorage.getItem('token')) {
             return <React.Fragment><Typography style={{marginLeft:'auto', marginRight:'auto'}}>Bad login</Typography> <Button href="/">Back to login</Button></React.Fragment>
         } else if (!this.state.isLoaded) {
-            return <LinearProgress
-            />
+            return <React.Fragment><LinearProgress
+            /> <div className={classes.root}>
+            <Container className={classes.cardGrid} maxWidth="md">
+                <Grid style={{ marginTop: 'auto', marginBottom: 'auto' }} container spacing={4}>
+                    <div className={classes.list}>
+                        <Paper className={classes.paper}>
+                            <Typography component="div">
+                                <Box fontWeight="fontWeightMedium" m={1}>
+                                    Devices :
+                            </Box>
+                            </Typography>
+                            <Divider /> 
+                            <Typography  align='center' variant="h6" color="secondary" gutterBottom>
+                            No device
+                            </Typography>
+                        </Paper>
+                    </div>
+                </Grid>
+            </Container>
+        </div></React.Fragment>
+            
         } else {
             return (
                 <React.Fragment>

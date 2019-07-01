@@ -11,6 +11,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 
 
+
 const message = `Truncation should be conditionally applicable on this long line of text
  as this is a much longer line than what the container can support. `;
 
@@ -53,8 +54,32 @@ class users extends Component {
         if (!localStorage.getItem('token')) {
             return <React.Fragment><h1>Bad login</h1> <Button href="/login">Back to login</Button></React.Fragment>
         } else if (!this.state.isLoaded) {
-            return <LinearProgress
+            return <React.Fragment> <LinearProgress
             />
+            <div className={classes.root}>
+                    <Container className={classes.cardGrid} maxWidth="md">
+                        <Grid style={{ marginTop: 'auto', marginBottom: 'auto' }} container spacing={4}>
+                            <div className={classes.list}>
+                                <Paper className={classes.paper}>
+                                    <Typography component="div">
+                                        <Box fontWeight="fontWeightMedium" m={1}>
+                                            Users :
+                                </Box>
+                                    </Typography>
+                                    <Divider />                                   
+                                            <Grid container>
+                                                <Grid item xs>
+                                                <Typography variant="h6" color="secondary" gutterBottom>
+                                                No user 
+                                                </Typography>
+                                                </Grid>
+                                            </Grid>
+                                    </Paper>
+                                </div>
+                            </Grid>
+                        </Container>
+                    </div>
+                </React.Fragment>
         } else {
             return (
                 <div className={classes.root}>

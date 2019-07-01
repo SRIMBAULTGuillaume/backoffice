@@ -49,7 +49,7 @@ class login extends Component {
         this.state = {
             username: '',
             password: '',
-            token: ''
+            token: '',
         }
         this.Login = this.Login.bind(this);
     }
@@ -74,15 +74,12 @@ class login extends Component {
     //     headers: { 'Content-Type': 'application/json' },
     //     data: JSON.stringify(this.state.username, this.state.password ),
     // };
-
     const data = { 'username': this.state.username,'password': this.state.password };
-
     const options = {
     method: 'POST',
     headers: { 'content-type': 'application/json' },
     data: qs.stringify(data),
     };
-
         let currentComponent = this;
         axios.post('http://79.94.239.242:8080/user/login', options, {
             headers: {
@@ -93,7 +90,7 @@ class login extends Component {
             .then(function (response) {
                 currentComponent.setState((state, props) => {
                     return ({
-                        token: response.data
+                        token: response.data,
                     });
                 })
                 localStorage.setItem('token', currentComponent.state.token)
@@ -101,7 +98,6 @@ class login extends Component {
             .catch(function (error) {
                 console.log(error);
             });
-
         // fetch('http://10.151.129.35:8080/user/login',
         //     {
         //         headers: {
@@ -116,6 +112,7 @@ class login extends Component {
     }
 
     render() {
+        console.log(this.state.isAuth);
         const { classes } = this.props;
         return (
             <Grid container component="main" className={classes.root}>

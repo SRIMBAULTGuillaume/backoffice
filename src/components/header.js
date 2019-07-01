@@ -19,6 +19,23 @@ export default class header extends Component {
         localStorage.clear();
     }
     render() {
+        if(!localStorage.getItem('token')){
+            return(
+                <React.Fragment>
+                <AppBar position="relative">
+                    <Toolbar>
+                        <Typography
+                            variant="h6"
+                            color="inherit"
+                        >
+                            Atlantis Project
+                        </Typography>
+                        <MenuSimple />
+                    </Toolbar>
+                </AppBar>
+            </React.Fragment>
+            ) 
+        }
         return (
             <React.Fragment>
                 <AppBar position="relative">
