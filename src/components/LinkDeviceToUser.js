@@ -13,128 +13,135 @@ import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
+import Loader from './loader';
+import Divider from '@material-ui/core/Divider';
 
 const axios = require('axios');
+
+const styles = theme => ({
+    root: {
+        flexGrow: 1,
+    },
+    paper: {
+        height: 140,
+        width: 100,
+    },
+    control: {
+        padding: theme.spacing(2),
+    },
+});
 
 class LinkDeviceToUser extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            isLoaded: false,
             users: [],
             devices: [],
-            userId:'',
-            deviceId:'',
+            userId: '',
+            deviceId: '',
         }
     }
 
     componentDidMount() {
-
-    }
-
-    FetchUsers() {
-        let self = this;
-        fetch('10.151.129.35:8080/user/')
-            .then(res => res.json())
-            .then(users => self.setState({ users: users }))
-    }
-
-    
-    AddNewOwner() {
-        let self = this;
-        fetch('http://10.151.129.35:8080/device/' + this.state.user + '/' + this.state.deviceId + '', {
-            method: 'put',
-            headers: new Headers({
-                'Authorization': localStorage.getItem('token')
-            })
-        })
     }
 
     FetchDevices() {
         let self = this;
-        fetch('10.151.129.35:8080/device')
+        fetch('http://10.151.129.35:8080/device', {
+            headers: new Headers({
+                'Authorization': localStorage.getItem('token')
+            })
+        })
             .then(res => res.json())
             .then(devices => self.setState({ devices: devices }))
     }
 
-    Login(e) {
-        let currentComponent = this;
-        const params = {
-            'username': this.state.username,
-            'password': this.state.password,
-        };
-        axios.post('http://10.151.129.35:8080/user/login', params, {
-            headers: {
-                'content-type': 'application/json',
-            },
-        })
+    FetchUsers(e) {
+        let self = this;
+        fetch('http://10.151.129.35:8080/user/')
+            .then(res => res.json())
+            .then(users => self.setState({ users: users }))
+    }
+
+    AddNewOwner() {
+        let self = this;
+        axios.post('http://10.151.129.35:8080/device/' + self.state.userId + '/' + self.state.deviceId + '')
             .then(function (response) {
-                currentComponent.setState((state, props) => {
+                self.setState((state, props) => {
                     return ({
-                        token: response.data
-                    });
-                })
-                localStorage.setItem('token', currentComponent.state.token)
+                        isLoaded: true,
+                        error: false,
+                    })
+                });
             })
             .catch(function (error) {
                 console.log(error);
+                self.setState((state, props) => {
+                    return ({
+                        error: true,
+                    })
+                })
             });
     }
 
-    onClick() {
-        let self = this;
-        const params = {
-
-        }
-
+    logChange(e) {
+        this.setState({ [e.target.name]: e.target.value });
     }
 
     render() {
+        console.log(this.state.deviceId);
+        const { classes } = this.props;
         return (
-            <div >
-            <Paper style={{ textAlign: 'center' }}>
-
-            <Grid container spacing={2}>
-
-                    <Grid item xs={6}>
-
-            Users : 
- 
-                    
-                <Select
-                            value={this.state.userId}
-                            onChange={this.logChange}
-                            inputProps={{
-                                name: 'userId',
-                                id: 'user-list',
-                            }}
-                        >
-                            {this.state.users.map(user => (
-                                <MenuItem value={user.id$javaServer}>{user.email$javaServer}</MenuItem>
-                            ))}
-                        </Select>
-                    </Grid>
-                    <Grid item  >
-                        Devices :
-                <Select
-                            value={this.state.deviceId}
-                            onChange={this.logChange}
-                            inputProps={{
-                                name: 'deviceId',
-                                id: 'device-list',
-                            }}
-                        >
-                            {this.state.devices.map(device => (
-                                <MenuItem value={device.id}>{device.type}</MenuItem>
-                            ))}
-                        </Select>
-
-                          <Grid item><Button variant="contained" color="primary" onClick={this.AddNewOwner.bind(this)}>Link it</Button></Grid>
-                    </Grid>
-                </Grid>
-            </Paper>
-        </div>
+            <div className={classes.root}>
+                <Container className={classes.cardGrid} maxWidth="lg">
+                    <Paper style={{ marginTop: '25px', }}>
+                        <Grid container
+                            alignContent="flex-start"
+                            direction="row"
+                            justify="center"
+                            alignItems="stretch">
+                            <Grid item xs={6} sm={3}>
+                                Users :
+                            <Select
+                                    onClick={this.FetchUsers.bind(this)}
+                                    value={this.state.userId}
+                                    onChange={this.logChange.bind(this)}
+                                    inputProps={{
+                                        name: 'userId',
+                                        id: 'user-list',
+                                    }}
+                                >
+                                    {this.state.users.map(user => (
+                                        <MenuItem id={user.id$javaServer} value={user.id$javaServer}>{user.email$javaServer}</MenuItem>
+                                    ))}
+                                </Select>
+                            </Grid>
+                            <Grid item xs={6} sm={3}>
+                                Devices :
+                        <Select
+                                    onClick={this.FetchDevices.bind(this)}
+                                    value={this.state.deviceId}
+                                    onChange={this.logChange.bind(this)}
+                                    inputProps={{
+                                        name: 'deviceId',
+                                        id: 'device-list',
+                                    }}
+                                >
+                                    {this.state.devices.map(device => (
+                                        <MenuItem id={device.id} value={device.id}>{device.type}</MenuItem>
+                                    ))}
+                                </Select>
+                            </Grid>
+                            <Grid item xs={6} sm={1}>
+                                {this.state.isLoaded ? <Button variant="contained" color="primary" onClick={this.AddNewOwner.bind(this)}><Loader /></Button> : <Button size="medium" color="primary" onClick={this.AddNewOwner.bind(this)}>Link it</Button>}
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                </Container>
+            </div>
         )
     }
 }
 
-export default withStyles()(LinkDeviceToUser);
+export default withStyles(styles)(LinkDeviceToUser);

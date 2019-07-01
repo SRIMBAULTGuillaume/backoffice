@@ -6,13 +6,18 @@ import Button from '@material-ui/core/Button';
 
 const styles = theme => ({
     paper: {
-        position: 'absolute',
-        width: 400,
         backgroundColor: theme.palette.background.paper,
         boxShadow: theme.shadows[5],
-        padding: theme.spacing(4),
+        padding: theme.spacing(6),
         outline: 'none',
     },
+    modal: {
+
+        position: 'absolute',
+        top: '50 %',
+        left: '50 %',
+        transform: 'translate(-50 %, -50 %)!important'
+    }
 });
 
 class deviceProfile extends Component {
@@ -30,8 +35,6 @@ class deviceProfile extends Component {
     componentDidMount() {
         this.fetchDataFromDevice();
     }
-
-
 
     fetchDataFromDevice() {
         fetch('http://10.151.129.35:8080/device/' + this.props.deviceId + '', {
@@ -68,12 +71,13 @@ class deviceProfile extends Component {
                 </Button> */}
                 <Button onClick={this.handleOpen} style={{ marginLeft: 'auto', marginRight: 'auto' }} >Stats</Button>
                 <Modal
+                    disablePortal
                     aria-labelledby="simple-modal-title"
                     aria-describedby="simple-modal-description"
                     open={this.state.open}
                     onClose={this.handleClose}
                 >
-                    <div className={classes.paper}>
+                    <div style={{}} className={classes.paper}>
                         <Typography align='center' gutterBottom variant="h5" component="h2">
                             device Id :{this.props.deviceId}
                         </Typography>
@@ -89,9 +93,7 @@ class deviceProfile extends Component {
                                 {/* device type : {device.type} */}
                             </Typography>
                         </div>
-                        <Button onClick={this.handleClose}>back</Button>
                     </div>
-
                 </Modal>
             </div >
         )

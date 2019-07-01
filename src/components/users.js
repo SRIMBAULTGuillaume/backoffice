@@ -14,16 +14,32 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
+
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Avatar from '@material-ui/core/Avatar';
+import Divider from '@material-ui/core/Divider';
 
+
+const message = `Truncation should be conditionally applicable on this long line of text
+ as this is a much longer line than what the container can support. `;
 
 const styles = theme => ({
     list: {
         width: '100%',
         backgroundColor: theme.palette.background.paper,
         textAlign: 'center'
+    },
+    root: {
+        flexGrow: 1,
+        overflow: 'hidden',
+        padding: theme.spacing(0, 3),
+    },
+    paper: {
+        maxWidth: 400,
+        margin: `${theme.spacing(1)}px auto`,
+        padding: theme.spacing(2),
     },
 });
 
@@ -32,6 +48,7 @@ class users extends Component {
         super(props)
         this.state = {
             users: [],
+            isLoaded: false,
         }
     }
 
@@ -39,34 +56,48 @@ class users extends Component {
         let self = this;
         fetch('http://10.151.129.35:8080/user/')
             .then(res => res.json())
-            .then(users => self.setState({ users: users }))
+            .then(users => self.setState({ users: users, isLoaded: true }))
     }
 
     render() {
         const { classes } = this.props;
-        return (
-            <React.Fragment>
-                <Container className={classes.cardGrid} maxWidth="md">
-                    <Grid style={{ marginTop: 'auto', marginBottom: 'auto' }} container spacing={4}>
-                        <div className={classes.list}>
-                            <Typography component="div">
-                                <Box fontWeight="fontWeightMedium" m={1}>
-                                    Users :
+        if (!localStorage.getItem('token')) {
+            return <React.Fragment><h1>Bad login</h1> <Button href="/login">Back to login</Button></React.Fragment>
+        } else if (!this.state.isLoaded) {
+            return <LinearProgress
+            />
+        } else {
+            return (
+                <div className={classes.root}>
+                    <Container className={classes.cardGrid} maxWidth="md">
+                        <Grid style={{ marginTop: 'auto', marginBottom: 'auto' }} container spacing={4}>
+                            <div className={classes.list}>
+                                <Paper className={classes.paper}>
+                                    <Typography component="div">
+                                        <Box fontWeight="fontWeightMedium" m={1}>
+                                            Users :
                                 </Box>
-                            </Typography>
-                            {this.state.users.map(user => (
-                                <List component="nav" aria-label="Main mailbox folders">
-                                    <ListItem button>
-                                        <ListItemText primary={user.email$javaServer} />
-                                        <Divider />
-                                    </ListItem>
-                                </List>
-                            ))}
-                        </div>
-                    </Grid>
-                </Container>
-            </React.Fragment>
-        )
+                                    </Typography>
+                                    <Divider />
+                                    {this.state.users.map(user => (
+                                        <Paper className={classes.paper}>
+                                            <Grid container>
+                                                <Grid item>
+                                                    <Avatar>A</Avatar>
+                                                </Grid>
+                                                <Grid item xs>
+                                                    <Typography>{user.email$javaServer}</Typography>
+                                                </Grid>
+                                            </Grid>
+                                        </Paper>
+                                    ))}
+                                </Paper>
+                            </div>
+                        </Grid>
+                    </Container>
+                </div>
+            )
+        }
     }
 }
 

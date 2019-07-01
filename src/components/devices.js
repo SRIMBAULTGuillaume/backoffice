@@ -19,13 +19,14 @@ import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
 import Modal from '@material-ui/core/Modal';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Avatar from '@material-ui/core/Avatar';
 
 
 const styles = theme => ({
     root: {
-        width: '100%',
-        marginTop: theme.spacing(3),
-        overflowX: 'auto',
+        flexGrow: 1,
+        overflow: 'hidden',
+        padding: theme.spacing(0, 3),
     },
     table: {
         minWidth: 650,
@@ -37,6 +38,11 @@ const styles = theme => ({
         width: '100%',
         backgroundColor: theme.palette.background.paper,
         textAlign: 'center'
+    },
+    paper: {
+        maxWidth: 600,
+        margin: `${theme.spacing(1)}px auto`,
+        padding: theme.spacing(2),
     },
 });
 
@@ -63,7 +69,6 @@ class devices extends Component {
         })
     }
 
-
     componentDidMount() {
         let self = this;
         fetch('http://10.151.129.35:8080/device/', {
@@ -73,7 +78,6 @@ class devices extends Component {
         })
             .then(res => res.json())
             .then(devices => self.setState({ devices: devices, isLoaded: true }))
-
     }
 
     logChange(e) {
@@ -96,21 +100,12 @@ class devices extends Component {
         })
     };
 
-    // AddNewOwner() {
-    //     let self = this;
-    //     fetch('http://10.151.129.35:8080/device/' + this.state.user + '/' + this.state.deviceId + '', {
-    //         method: 'put',
-    //         headers: new Headers({
-    //             'Authorization': localStorage.getItem('token')
-    //         })
-    //     })
-    // }
+
 
     handleOpen() {
         // fetch('http://10.151.129.35:8080/device/' + parseInt(this.props.deviceId, 10) + '')
         //     .then(res => res.json())
         //     .then(devicesData => this.setState({ devicesData: devicesData }))
-
     }
 
     handleClose() {
@@ -128,138 +123,30 @@ class devices extends Component {
         } else {
             return (
                 <React.Fragment>
-                    <div>
+                    <div className={classes.root}>
                         <Container className={classes.cardGrid} maxWidth="md">
                             <Grid style={{ marginTop: 'auto', marginBottom: 'auto' }} container spacing={4}>
                                 <div className={classes.list}>
-                                    <Typography component="div">
-                                        <Box fontWeight="fontWeightMedium" m={1}>
-                                            Devices :
+                                    <Paper className={classes.paper}>
+                                        <Typography component="div">
+                                            <Box fontWeight="fontWeightMedium" m={1}>
+                                                Devices :
                                         </Box>
-                                    </Typography>
-                                    {this.state.devices.map(device => (
-                                        <List component="nav" aria-label="Main mailbox folders">
-                                            <ListItem button>
-                                                <ListItemText key={device.id} id={device.id} onClick={this.onClick} primary={device.id} /> <ListItemText primary={device.type} /> <ListItemText primary={device.macAddress} />
-                                                {/* <Button
-                                                    key={device.id} id={device.id} onClick={this.onClick}
-                                                    // href={'/device/' + this.state.deviceId}
-                                                    variant="contained"
-                                                    color="primary"
-                                                >
-                                                    Device Stat
-                                                </Button> */}
-                                                <DeviceProfile deviceId={this.state.deviceId} devicesData={this.state.devicesData} />
-                                                {/* <Modal
-                                                    aria-labelledby="simple-modal-title"
-                                                    aria-describedby="simple-modal-description"
-                                                    open={this.state.open}
-                                                    onClose={this.handleClose}
-                                                >
-                                                    <div className={classes.paper}>
-                                                        <Typography variant="h6" id="modal-title">
-                                                            device Id :{this.state.deviceId}
-                                                        </Typography>
-                                                        <Typography variant="h6" id="modal-title">
-                                                            date  :{this.props.devicesData.date}
-                                                        </Typography>
-                                                        <Typography variant="h6" id="modal-title">
-                                                            value :{this.props.devicesData.value}
-                                                        </Typography>
-                                                        <Typography variant="h6" id="modal-title">
-                                                            value six hours :{this.props.devicesData.valueSixHours}
-                                                        </Typography>
-                                                        <Button onClick={this.handleClose}>back</Button>
-                                                    </div>
-                                                </Modal> */}
-                                            </ListItem>
-                                            <Divider />
-                                        </List>
-                                    ))}
-                                    {/* {this.state.devices.map(device => (
-                                        <Grid item xs={12} sm={6} md={4}>
-                                            <Card className={classes.card}>
-                                                <CardContent className={classes.cardContent}>
-                                                    <Button><Typography key={device.id} id={device.id} onClick={this.onClick} align='center' gutterBottom variant="h5" component="h2">
-                                                        {device.id}
-                                                    </Typography>
-                                                    </Button>
-                                                    <Typography align='center' gutterBottom variant="h5" component="h2">
-                                                        {device.type}
-                                                    </Typography>
-                                                </CardContent>
-                                                <CardActions>
-                                                    <DeviceProfile deviceId={this.state.deviceId} devicesData={this.state.devicesData} />
-                                                </CardActions>
-                                            </Card>
-                                        </Grid>
-                                    ))} */}
-                                </div>
-                                {/* <Divider style={{ margin: '20px' }} />
-                                <div className={classes.list}>
-                                    <Paper> Users :
-                                    {this.state.users.map(user => (
+                                        </Typography>
+                                        <Divider />
+                                        {this.state.devices.map(device => (
                                             <List component="nav" aria-label="Main mailbox folders">
-                                                <ListItem button>
-                                                    <ListItemText primary={user.email$javaServer} />
-                                                    <Divider />
+                                                <ListItem key={device.id} id={device.id} onClick={this.onClick} button>
+                                                    <ListItemText primary={device.id} /> <ListItemText primary={device.type} /> <ListItemText primary={device.macAddress} />
+                                                    <DeviceProfile deviceId={this.state.deviceId} devicesData={this.state.devicesData} />
                                                 </ListItem>
+                                                <Divider />
                                             </List>
                                         ))}
                                     </Paper>
-                                </div> */}
+                                </div>
                             </Grid>
-                            {/* <Select
-                                value={this.state.user}
-                                onChange={this.logChange}
-                                inputProps={{
-                                    name: 'user',
-                                    id: 'user-list',
-                                }}
-                            >
-                                {this.state.users.map(user => (
-                                    <MenuItem value={user.id$javaServer}>{user.id$javaServer}</MenuItem>
-                                ))}
-                            </Select> */}
-                            {/* <Button onClick={this.AddNewOwner.bind(this)}>Link the device selected to this user</Button> */}
                         </Container>
-                        {/* <div style={{ marginTop: 'auto', marginBottom: 'auto' }} >
-                            <Paper style={{ textAlign: 'center' }}>
-                                Link device to user
-                            <Grid container spacing={3}>
-                                    <Grid item xs={6}>
-                                        Users :
-                                <Select
-                                            value={this.state.user}
-                                            onChange={this.logChange}
-                                            inputProps={{
-                                                name: 'user',
-                                                id: 'user-list',
-                                            }}
-                                        >
-                                            {this.state.users.map(user => (
-                                                <MenuItem value={user.id$javaServer}>{user.email$javaServer}</MenuItem>
-                                            ))}
-                                        </Select>
-                                    </Grid>
-                                    <Grid item >
-                                        Devices :
-                                <Select
-                                            value={this.state.deviceId}
-                                            onChange={this.logChange}
-                                            inputProps={{
-                                                name: 'deviceId',
-                                                id: 'user-list',
-                                            }}
-                                        >
-                                            {this.state.devices.map(device => (
-                                                <MenuItem value={device.id}>{device.type}</MenuItem>
-                                            ))}
-                                        </Select>
-                                    </Grid>
-                                </Grid>
-                            </Paper>
-                        </div> */}
                     </div>
                 </React.Fragment>
             )

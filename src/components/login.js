@@ -55,16 +55,6 @@ class login extends Component {
         this.Login = this.Login.bind(this);
     }
 
-    componentDidMount() {
-    }
-
-    // handleChange(e) {
-    //     let change = {}
-    //     change[e.target.name] = e.target.value
-    //     this.setState(change);
-    // }
-
-
     handleChangeUsername(e) {
         e.preventDefault();
         this.setState({
@@ -78,7 +68,6 @@ class login extends Component {
             password: e.target.value
         })
     }
-
 
     Login() {
         let currentComponent = this;
