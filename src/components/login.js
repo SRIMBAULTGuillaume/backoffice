@@ -3,8 +3,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -50,7 +48,7 @@ class login extends Component {
         this.state = {
             username: '',
             password: '',
-            token: '',
+            token: ''
         }
         this.Login = this.Login.bind(this);
     }
@@ -70,14 +68,15 @@ class login extends Component {
     }
 
     Login() {
-        let currentComponent = this;
         const params = {
             'username': this.state.username,
-            'password': this.state.password,
-        };
+            'password': this.state.password
+        }
+        let currentComponent = this;
         axios.post('http://10.151.129.35:8080/user/login', params, {
             headers: {
                 'Content-Type': 'application/json',
+                "Accept": "application/json;charset=UTF-8",
             },
         })
             .then(function (response) {
@@ -91,12 +90,22 @@ class login extends Component {
             .catch(function (error) {
                 console.log(error);
             });
+
+        // fetch('http://10.151.129.35:8080/user/login',
+        //     {
+        //         headers: {
+        //             'Accept': 'application/json',
+        //             'Content-Type': 'application/json'
+        //         },
+        //         method: "POST",
+        //         body: JSON.stringify({ 'username': this.state.user, 'password: this.state.password })
+        //     })
+        //     .then(function (res) { console.log(res) })
+        //     .catch(function (res) { console.log(res) })
     }
 
     render() {
         const { classes } = this.props;
-        console.log(this.state.username);
-        console.log(this.state.password);
         return (
             <Grid container component="main" className={classes.root}>
                 <CssBaseline />
@@ -137,7 +146,7 @@ class login extends Component {
                                 onChange={this.handleChangePassword.bind(this)}
                             />
                             <Button
-                                type="submit"
+                                // type="submit"
                                 fullWidth
                                 variant="contained"
                                 color="primary"

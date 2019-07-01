@@ -55,20 +55,9 @@ class deviceProfile extends Component {
     }
 
     render() {
-        console.log(this.props.devicesData);
         const { classes } = this.props;
         return (
             <div>
-                {/* <Button
-                    onClick={this.handleOpen}
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                // key={this}
-                // id={device.id}
-                >
-                    Stats
-                </Button> */}
                 <Button onClick={this.handleOpen} style={{ marginLeft: 'auto', marginRight: 'auto' }} >Stats</Button>
                 <Modal
                     disablePortal

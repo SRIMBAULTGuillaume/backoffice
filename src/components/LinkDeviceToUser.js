@@ -3,18 +3,10 @@ import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import DeviceProfile from './deviceProfile';
 import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import Loader from './loader';
-import Divider from '@material-ui/core/Divider';
+import OfflinePinIcon from '@material-ui/icons/OfflinePin';
 
 const axios = require('axios');
 
@@ -90,7 +82,6 @@ class LinkDeviceToUser extends Component {
     }
 
     render() {
-        console.log(this.state.deviceId);
         const { classes } = this.props;
         return (
             <div className={classes.root}>
@@ -134,7 +125,7 @@ class LinkDeviceToUser extends Component {
                                 </Select>
                             </Grid>
                             <Grid item xs={6} sm={1}>
-                                {this.state.isLoaded ? <Button variant="contained" color="primary" onClick={this.AddNewOwner.bind(this)}><Loader /></Button> : <Button size="medium" color="primary" onClick={this.AddNewOwner.bind(this)}>Link it</Button>}
+                                {this.state.isLoaded ? <React.Fragment><OfflinePinIcon style={{ color: 'blue', marginTop: '5px', display: 'inline-block' }} /> Device Linked</React.Fragment> : <Button size="medium" color="primary" onClick={this.AddNewOwner.bind(this)}>Link it</Button>}
                             </Grid>
                         </Grid>
                     </Paper>

@@ -9,6 +9,9 @@ export default class header extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            username: '',
+            password: '',
+            token: ''
         }
     }
 
@@ -26,11 +29,9 @@ export default class header extends Component {
                         >
                             Atlantis Project
                         </Typography>
-                       
                         <MenuSimple />
                         <Button
                             style={{ marginLeft: 'auto' }}
-                            type="submit"
                             variant="contained"
                             color="primary"
                             href="/"

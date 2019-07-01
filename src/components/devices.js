@@ -4,23 +4,14 @@ import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
 import DeviceProfile from './deviceProfile';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
 import Box from '@material-ui/core/Box';
-import Modal from '@material-ui/core/Modal';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import Avatar from '@material-ui/core/Avatar';
-
 
 const styles = theme => ({
     root: {
@@ -60,12 +51,21 @@ class devices extends Component {
         }
         this.logChange = this.logChange.bind(this);
         this.onClick = this.onClick.bind(this);
+        this.OnSignOut = this.OnSignOut.bind(this);
     }
 
 
     handleDeviceIdClick(e) {
         this.setState({
             deviceId: e.target.id
+        })
+    }
+
+    OnSignOut() {
+        localStorage.clear();
+        this.setState({
+            username:'',
+            password:''
         })
     }
 
@@ -114,6 +114,8 @@ class devices extends Component {
 
 
     render() {
+
+        
         const { classes } = this.props;
         if (!localStorage.getItem('token')) {
             return <React.Fragment><h1>Bad login</h1> <Button href="/login">Back to login</Button></React.Fragment>
