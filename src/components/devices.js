@@ -118,7 +118,7 @@ class devices extends Component {
         
         const { classes } = this.props;
         if (!localStorage.getItem('token')) {
-            return <React.Fragment><h1>Bad login</h1> <Button href="/login">Back to login</Button></React.Fragment>
+            return <React.Fragment><Typography style={{marginLeft:'auto', marginRight:'auto'}}>Bad login</Typography> <Button href="/">Back to login</Button></React.Fragment>
         } else if (!this.state.isLoaded) {
             return <LinearProgress
             />

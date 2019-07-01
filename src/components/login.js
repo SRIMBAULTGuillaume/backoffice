@@ -9,6 +9,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import atlantisLogo from '../images/algeco_logo.jpg';
+import qs from 'qs';
 
 const axios = require('axios')
 
@@ -68,12 +69,22 @@ class login extends Component {
     }
 
     Login() {
-        const params = {
-            'username': this.state.username,
-            'password': this.state.password
-        }
+    // const data = {
+    //     method: 'POST',
+    //     headers: { 'Content-Type': 'application/json' },
+    //     data: JSON.stringify(this.state.username, this.state.password ),
+    // };
+
+    const data = { 'username': this.state.username,'password': this.state.password };
+
+    const options = {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    data: qs.stringify(data),
+    };
+
         let currentComponent = this;
-        axios.post('http://10.151.129.35:8080/user/login', params, {
+        axios.post('http://79.94.239.242:8080/user/login', options, {
             headers: {
                 'Content-Type': 'application/json',
                 "Accept": "application/json;charset=UTF-8",
@@ -150,7 +161,7 @@ class login extends Component {
                                 fullWidth
                                 variant="contained"
                                 color="primary"
-                                href="/devices"
+                                // href="/devices"
                                 className={classes.submit}
                                 onClick={this.Login}
                             >
