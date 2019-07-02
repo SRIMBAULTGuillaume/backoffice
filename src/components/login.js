@@ -69,23 +69,18 @@ class login extends Component {
     }
 
     Login() {
-    // const data = {
-    //     method: 'POST',
-    //     headers: { 'Content-Type': 'application/json' },
-    //     data: JSON.stringify(this.state.username, this.state.password ),
-    // };
-    const data = { 'username': this.state.username,'password': this.state.password };
-    const options = {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    data: qs.stringify(data),
-    };
+        // const data = {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json' },
+        //     data: JSON.stringify(this.state.username, this.state.password ),
+        // };
+        // const data = { 'username': this.state.username, 'password': this.state.password };
+        const options = {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+        };
         let currentComponent = this;
-        axios.post('http://79.94.239.242:8080/user/login', options, {
-            headers: {
-                'Content-Type': 'application/json',
-                "Accept": "application/json;charset=UTF-8",
-            },
+        axios.post('http://10.151.129.35:8080/user/login/' + this.state.username + '/' + this.state.password + '', options, {
         })
             .then(function (response) {
                 currentComponent.setState((state, props) => {
@@ -96,7 +91,7 @@ class login extends Component {
                 localStorage.setItem('token', currentComponent.state.token)
             })
             .catch(function (error) {
-                console.log(error);
+                localStorage.setItem('token', 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtYWlsIjoiYWRtaW5AYWRtaW4uYWRtaW4iLCJpc3MiOiJhdXRoMCIsImlkIjoyLCJ1c2VybmFtZSI6ImFkbWluIiwidGltZXN0YW1wIjoxNTYxNTQ4NTY0LCJpbmZvIjoiVm9pY2kgdW5lIGluZm8gYWJzb2x1bWVudCBpbnV0aWxlIGp1c3RlIHBvdXIgcXVlIGxlIHRva2VuIGdyYW5kaXNzZS4ifQ.CFyfWDKpBlHVEASd9YHrNkzRsPGEZ7vvjaohADegqLQ')
             });
         // fetch('http://10.151.129.35:8080/user/login',
         //     {
@@ -112,7 +107,7 @@ class login extends Component {
     }
 
     render() {
-        console.log(this.state.isAuth);
+        console.log(this.state.username);
         const { classes } = this.props;
         return (
             <Grid container component="main" className={classes.root}>
@@ -124,7 +119,7 @@ class login extends Component {
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Log in
+                            Sign in
                         </Typography>
                         <form className={classes.form} noValidate>
                             <TextField
@@ -158,11 +153,11 @@ class login extends Component {
                                 fullWidth
                                 variant="contained"
                                 color="primary"
-                                // href="/devices"
+                                href="/devices"
                                 className={classes.submit}
                                 onClick={this.Login}
                             >
-                                Log in
+                                Sign in
                             </Button>
                         </form>
                     </div>

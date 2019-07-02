@@ -7,7 +7,8 @@ import Paper from '@material-ui/core/Paper';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import OfflinePinIcon from '@material-ui/icons/OfflinePin';
-
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
 const axios = require('axios');
 
 const styles = theme => ({
@@ -86,49 +87,54 @@ class LinkDeviceToUser extends Component {
         return (
             <div className={classes.root}>
                 <Container className={classes.cardGrid} maxWidth="lg">
-                    <Paper style={{ marginTop: '25px', }}>
-                        <Grid container
-                            alignContent="flex-start"
-                            direction="row"
-                            justify="center"
-                            alignItems="stretch">
-                            <Grid item xs={6} sm={3}>
-                                Users :
-                            <Select
-                                    onClick={this.FetchUsers.bind(this)}
-                                    value={this.state.userId}
-                                    onChange={this.logChange.bind(this)}
-                                    inputProps={{
-                                        name: 'userId',
-                                        id: 'user-list',
-                                    }}
-                                >
-                                    {this.state.users.map(user => (
-                                        <MenuItem id={user.id$javaServer} value={user.id$javaServer}>{user.email$javaServer}</MenuItem>
-                                    ))}
-                                </Select>
-                            </Grid>
-                            <Grid item xs={6} sm={3}>
-                                Devices :
-                        <Select
-                                    onClick={this.FetchDevices.bind(this)}
-                                    value={this.state.deviceId}
-                                    onChange={this.logChange.bind(this)}
-                                    inputProps={{
-                                        name: 'deviceId',
-                                        id: 'device-list',
-                                    }}
-                                >
-                                    {this.state.devices.map(device => (
-                                        <MenuItem id={device.id} value={device.id}>{device.type}</MenuItem>
-                                    ))}
-                                </Select>
-                            </Grid>
-                            <Grid item xs={6} sm={1}>
-                                {this.state.isLoaded ? <React.Fragment><OfflinePinIcon style={{ color: 'blue', marginTop: '5px', display: 'inline-block' }} /> Device Linked</React.Fragment> : <Button size="medium" color="primary" onClick={this.AddNewOwner.bind(this)}>Link it</Button>}
-                            </Grid>
+                    <Grid container
+                        alignContent="flex-start"
+                        direction="row"
+                        justify="center"
+                        alignItems="stretch">
+                        <Grid item xs={6} sm={3}><Typography variant="subtitle1" gutterBottom>
+                            Link device with user
+                            </Typography>
                         </Grid>
-                    </Paper>
+                        <Grid item>
+                        </Grid>
+                        <Grid item xs={6} sm={3}>
+                            Users :
+                            <Select
+                                onClick={this.FetchUsers.bind(this)}
+                                value={this.state.userId}
+                                onChange={this.logChange.bind(this)}
+                                inputProps={{
+                                    name: 'userId',
+                                    id: 'user-list',
+                                }}
+                            >
+                                {this.state.users.map(user => (
+                                    <MenuItem id={user.id$javaServer} value={user.id$javaServer}>{user.email$javaServer}</MenuItem>
+                                ))}
+                            </Select>
+                        </Grid>
+                        <Grid item xs={6} sm={3}>
+                            Devices :
+                        <Select
+                                onClick={this.FetchDevices.bind(this)}
+                                value={this.state.deviceId}
+                                onChange={this.logChange.bind(this)}
+                                inputProps={{
+                                    name: 'deviceId',
+                                    id: 'device-list',
+                                }}
+                            >
+                                {this.state.devices.map(device => (
+                                    <MenuItem id={device.id} value={device.id}>{device.type}</MenuItem>
+                                ))}
+                            </Select>
+                        </Grid>
+                        <Grid item xs={8} sm={1}>
+                            {this.state.isLoaded ? <React.Fragment><OfflinePinIcon style={{ color: 'blue', marginTop: '5px', display: 'inline-block' }} /> Device Linked</React.Fragment> : <Button size="medium" color="primary" onClick={this.AddNewOwner.bind(this)}>Link it</Button>}
+                        </Grid>
+                    </Grid>
+                    <Divider />
                 </Container>
             </div>
         )

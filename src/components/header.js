@@ -18,23 +18,24 @@ export default class header extends Component {
     OnSignOut() {
         localStorage.clear();
     }
+
     render() {
-        if(!localStorage.getItem('token')){
-            return(
+        if (!localStorage.getItem('token')) {
+            return (
                 <React.Fragment>
-                <AppBar position="relative">
-                    <Toolbar>
-                        <Typography
-                            variant="h6"
-                            color="inherit"
-                        >
-                            Atlantis Project
+                    <AppBar position="relative">
+                        <Toolbar>
+                            <Typography
+                                variant="h6"
+                                color="inherit"
+                            >
+                                Atlantis Project
                         </Typography>
-                        <MenuSimple />
-                    </Toolbar>
-                </AppBar>
-            </React.Fragment>
-            ) 
+                            <MenuSimple />
+                        </Toolbar>
+                    </AppBar>
+                </React.Fragment>
+            )
         }
         return (
             <React.Fragment>
@@ -52,7 +53,7 @@ export default class header extends Component {
                             variant="contained"
                             color="primary"
                             href="/"
-                            onClick={this.OnSignOut.bind(this)}
+                        // onClick={this.OnSignOut.bind(this)}
                         >
                             Log out
                     </Button>
